@@ -22,3 +22,5 @@ That's it really. There's some checks and balances along the way to confirm time
 The script occasionally fails. I think this is due to using mobile hotspot, but can't prove this. Often connecting to the home wifi later and running it again will be enough to push it out to twitter but once in a while even this isn't enough. In these cases I copy the img files to a new directory then remake the timelapse and this is usually enough for it to tweet.
 
 I'll upload the latest version of the script itself in the very near future for folks to use tweak for other purposes and to offer improvements upon.
+
+Revisiting sources for this, looks like I may need to replace raspistill commands with the newer libcamera stuff so I'll be looking into that.
