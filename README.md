@@ -23,4 +23,4 @@ The script occasionally fails. I think this is due to using mobile hotspot, but 
 
 I'll upload the latest version of the script itself in the very near future for folks to use tweak for other purposes and to offer improvements upon.
 
-Revisiting sources for this, looks like I may need to replace raspistill commands with the newer libcamera stuff so I'll be looking into that.
+Revisiting sources for this, looks like I may have option to use the newer libcamera stuff so I'll be looking into that.
