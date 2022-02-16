@@ -1,0 +1,13 @@
+
+Traceback (most recent call last):
+  File "./mkvidtweet.py", line 77, in <module>
+    response = api.upload_video(media=video, media_type='video/mp4')
+  File "/usr/lib/python3/dist-packages/twython/endpoints.py", line 231, in upload_video
+    response = self.post(upload_url, params=params)
+  File "/usr/lib/python3/dist-packages/twython/api.py", line 274, in post
+    return self.request(endpoint, 'POST', params=params, version=version)
+  File "/usr/lib/python3/dist-packages/twython/api.py", line 264, in request
+    api_call=url)
+  File "/usr/lib/python3/dist-packages/twython/api.py", line 199, in _request
+    retry_after=response.headers.get('X-Rate-Limit-Reset'))
+twython.exceptions.TwythonError: Twitter API returned a 400 (Bad Request), An error occurred processing your request.
