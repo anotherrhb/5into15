@@ -22,8 +22,8 @@ Future upgrade might be the RPI HQ camera module, this would be bulkier but bett
 On the assumption the Pi is already setup with Twython installed (https://twython.readthedocs.io/en/latest/index.html#) and camera & ssh enabled, there're essentially 5 steps to this which I researched and tested in part then put together into a single script:
 
 1) Trigger a .py which firstly prompts for location input for use in the tweet later. 
-2) Capture 300 images at 1 per second in .jpg format. This is actually slightly slower than 5x60=300s, it usually takes about 7 minutes to complete this.
-3) Convert this into a timelapse movie at 20fps, using -vcodec libx264 and -vf scale=1280:720 to output an .mp4 file. This takes about 2 minutes.
+2) Capture 300 images at 1 per second in .jpg format, using picamera. This is actually slightly slower than 5x60=300s, it usually takes about 7 minutes to complete this.
+3) Convert this into a timelapse movie at 20fps via ffmpeg, using -vcodec libx264 and -vf scale=1280:720 to output an .mp4 file. This takes about 2 minutes.
 4) Upload to twitter using the twitter api and twython - this was fairly straightforward to get going after I'd looked it up, there're a few instructables etc about it. This step within the script takes about a minute to complete.
 5) Clean up the image files, and archive the video file so that both a copy is kept and that the working files can be created again without an overwrite prompt.
 
