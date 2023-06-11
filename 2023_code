@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+import sys
+import os
+import time
+from datetime import datetime
+from subprocess import call
+from gpiozero import CPUTemperature
+from twython import Twython
+from picamera import PiCamera
+
+# Input location from user
+location = input("Input location: ")
+
+# Get CPU temperature
+cpu = CPUTemperature()
+temp = cpu.temperature
+print("CPU Temp =", temp)
+
+# Get current time
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+print("Current Time =", current_time)
+print("Tweeting from", location)
+
+# Capture images using raspistill command
+cmd2 = 'raspistill -t 300000 -tl 1000 -bm -o image%04d.jpg -w 1280 -h 720 -vf -hf'
+call([cmd2], shell=True)
+
+# Images capture complete
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+print("Images Capture complete at", current_time)
+
+# Create timelapse using ffmpeg
+cmd3 = 'ffmpeg -r 20 -loglevel error -i image%04d.jpg -r 20 -vcodec libx264 -vf scale=1280:720 -crf 17 5into15.mp4'
+call([cmd3], shell=True)  # Process timelapse
+
+# Timelapse in mp4 format complete
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+print("Timelapse in mp4 format complete at", current_time)
+
+# Prepare tweet text
+starttweet = "Take 15 seconds of your day to enjoy 5 minutes from #"
+endtweet = ", UK. A #timelapse #project using a raspberry_pi Zero2 and the twitter api."
+tweetStr = starttweet + location + endtweet
+
+# Set up Twitter API credentials
+apiKey = 'yours'
+apiSecret = 'yours'
+accessToken = 'yours'
+accessTokenSecret = 'yours'
+api = Twython(apiKey, apiSecret, accessToken, accessTokenSecret)
+
+# Upload video and send tweet
+video = open('5into15.mp4', 'rb')
+response = api.upload_video(media=video, media_type='video/mp4')
+time.sleep(5.5)  # Pause for 5.5 seconds
+print('media_id', response['media_id'])
+api.update_status(status=tweetStr, media_ids=[response['media_id']])
+
+# Confirm tweet sent
+print("Tweeted:", tweetStr)
+
+# Delete the image files
+cmd5 = 'rm im*.jpg'
+call([cmd5], shell=True)
+print("Source Image files Deleted")
+
+# Save a copy of the video
+os.rename("5into15.mp4", time.strftime("%Y%m%d%H%M%S.mp4"))
+print("Copy of video saved")
+
+# End statistics
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+print("Finish Time =", current_time)
+
+# Get CPU temperature
+cpu = CPUTemperature()
+temp = cpu.temperature
+print("CPU Temp =", temp)
+
